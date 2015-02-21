@@ -22,6 +22,7 @@ import Tkinter as tk
 import ttk   
 import string
 import random
+import tkMessageBox as mb
 
 
 class MainApplication:
@@ -80,7 +81,9 @@ class MainApplication:
 
     def password_generator(self):
         if self.spinvar.get() > 16:
-            self.spinvar.set(16)
+            mb.showinfo("Warning", "Invalid length of password.\nMaximum is 16.")
+            self.length_spin.focus_set()
+            return
             
         #  Generate password from letters & numbers.
         if self.intvar1.get() == 1 and self.intvar2.get() == 1 and self.intvar3.get() == 1:
@@ -114,6 +117,9 @@ def main():
     root = tk.Tk()
     app = MainApplication(root)
     root.title("Password Generator")
+    root.iconify()
+    root.update()
+    root.deiconify()
     root.mainloop()    
 
 if __name__ == '__main__':
