@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 #
 #  passgengui.py
 #
@@ -32,12 +32,21 @@ class MainApplication:
         self.main_window()
 
     def main_window(self):
+        """
+        This is the user interface consisting of a menu bar,
+        a frame for character sets, a frame where you can
+        select the length of the password, and the generate
+        button and output result.
+        """
         #  Menu Bar
         self.menubar = tk.Menu(self.parent)
         self.parent.config(menu=self.menubar)
         self.filemenu = tk.Menu(self.menubar, tearoff=0)
+        self.helpmenu = tk.Menu(self.menubar, tearoff=0)
         self.menubar.add_cascade(label="File", menu=self.filemenu)
         self.filemenu.add_command(label="Exit", command=self.app_exit_function)
+        self.menubar.add_cascade(label="Help", menu=self.helpmenu)
+        self.helpmenu.add_command(label="About", command=self.about_dialog)
 
         # Character sets frame.
         self.chars_frame = ttk.LabelFrame(self.parent, text='Sets of Characters')
@@ -80,6 +89,14 @@ class MainApplication:
         self.resulttext.grid(row=0, column=1, sticky="nesw", padx=5, pady=5)
 
     def password_generator(self):
+        """
+        This is where the generation of password will
+        occur. It will take the data from the spinvar
+        variable and will test if the it exceed to the
+        maximum length of 16 characters. If not it will
+        be generated using the selection characters variables
+        and randomly selecting it.
+        """
         if self.spinvar.get() > 16:
             mb.showinfo("Warning", "Invalid length of password.\nMaximum is 16.")
             self.length_spin.focus_set()
@@ -112,6 +129,33 @@ class MainApplication:
     def app_exit_function(self):
         #  Exit option for the application.
         self.parent.destroy()
+        
+    def about_dialog(self):
+        """
+        This area will be the about dialog for the application.
+        This includes the application name, version number,
+        a description of the application, author's name, e-mail,
+        and the license.
+        """
+        self.about = tk.Toplevel(self.parent)
+        self.about.title('About')
+        self.about.geometry('300x200')
+        self.about_frame = tk.Frame(self.about)
+        self.about_frame.pack()
+        self.app_name = tk.Label(self.about_frame, text='Password Generator', font=('Times', 20, 'bold'))
+        self.app_name.pack()
+        self.app_version = tk.Label(self.about_frame, text='version: 1.0')
+        self.app_version.pack()
+        self.app_desc = tk.Label(self.about_frame, text='"A simple password generator."')
+        self.app_desc.pack()
+        self.app_author = tk.Label(self.about_frame, text='Author: Jesus Vedasto A. Olazo', font=('Times', 10,'bold'))
+        self.app_author.pack()
+        self.app_email = tk.Label(self.about_frame, text='E-mail: jestoy.olazo@gmail.com', font=('Times', 10,'bold'))
+        self.app_email.pack()
+        self.app_license = tk.Label(self.about_frame, text='License: GNU Public License v2', font=('Times', 10,'bold'))
+        self.app_license.pack()
+        self.close_button = ttk.Button(self.about_frame, text='Close', command=self.about.destroy)
+        self.close_button.pack(pady=5, padx=5)
 
 def main():
     root = tk.Tk()
