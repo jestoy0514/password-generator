@@ -29,6 +29,7 @@ class MainApplication:
 
     def __init__(self, parent):
         self.parent = parent
+        self.parent.protocol('WM_DELETE_WINDOW', self.app_exit_function)
         self.main_window()
 
     def main_window(self):
